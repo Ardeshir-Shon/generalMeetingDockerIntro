@@ -43,7 +43,7 @@ docker-compose up --build
 ```
 4. Access the application by navigating to http://localhost:8080 in your web browser.
 
-###Interacting with the Application
+## Interacting with the Application
 
 Once the application is running:
 
@@ -51,7 +51,7 @@ The dashboard at the root URL (/) will display the most recent predictions.
 Click the "Download Model" button to download the trained model file.
 The /get_predictions endpoint can be used to manually fetch prediction data in JSON format (mostly for debugging or other backend purposes).
 
-###License
+### License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 
 
