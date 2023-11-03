@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MNIST Classifier</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body onload="loadPredictions()">
+<div id="results"></div>
+<div id="stats">
+    <p id="total-predictions"></p>
+    <p id="accuracy"></p>
+</div>
+<button onclick="window.location.href='/download_model'">Download Model</button>
+
+<script>
+    async function loadPredictions() {
+        const response = await fetch('/get_predictions');
+        const data = await response.json();
+        const resultsDiv = document.getElementById('results');
+        data.images.forEach((imageData, index) => {
+            const predictedLabel = data.predicted_labels[index];
+            const trueLabel = data.true_labels[index];
+
+            // Create a flat array to hold the RGBA values
+            const rgbaData = new Uint8ClampedArray(28 * 28 * 4);
+
+            // Loop through each row of the image data
+            imageData.forEach((row, rowIndex) => {
+                // Loop through each pixel in the row
+                row.forEach((value, columnIndex) => {
+                    const pixelIndex = (rowIndex * 28 + columnIndex) * 4;
+                    const scaledValue = value * 255;  // Rescale the pixel value
+                    rgbaData[pixelIndex + 0] = scaledValue; // R
+                    rgbaData[pixelIndex + 1] = scaledValue; // G
+                    rgbaData[pixelIndex + 2] = scaledValue; // B
+                    rgbaData[pixelIndex + 3] = 255;         // A
+                });
+            });
+
+            const canvas = document.createElement('canvas');
+            canvas.width = 28;
+            canvas.height = 28;
+            const ctx = canvas.getContext('2d');
+            const imgData = new ImageData(rgbaData, 28, 28);
+            ctx.putImageData(imgData, 0, 0);
+
+            const imageItem = document.createElement('div');
+            imageItem.className = `image-item ${predictedLabel === trueLabel ? 'correct' : 'incorrect'}`;  // Corrected this line
+            imageItem.innerHTML = `
+                <img src="${canvas.toDataURL()}" alt="MNIST Image">
+                <div>Predicted: ${predictedLabel}</div>
+                <div>True: ${trueLabel}</div>
+            `;
+            resultsDiv.appendChild(imageItem);
+        });
+
+        document.getElementById('total-predictions').innerText = `Total Predictions: ${data.total_predictions}`;
+        document.getElementById('accuracy').innerText = `Accumulated Accuracy: ${(data.accuracy * 100).toFixed(2)}%`;
+    }
+</script>
+</body>
+</html>
