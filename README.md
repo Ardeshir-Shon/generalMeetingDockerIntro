@@ -1,4 +1,4 @@
-# MNIST Classifier Project
+# Docker Deployment for a Simple MNIST Classifier Dashboard
 
 ## Introduction
 
