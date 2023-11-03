@@ -4,7 +4,7 @@
 
 This project serves as a demonstration to Machine Learning Engineers on how to leverage Docker for deploying machine learning models, especially when working with remote servers. Through a simple yet complete example, this project encapsulates a workflow that includes a Flask backend for serving predictions, a frontend for user interactions, and a Redis database for state management, all containerized using Docker.
 
-<img src="uiimage_name.png">
+<img src="ui.png">
 
 ## Project Structure
 
