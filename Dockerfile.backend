@@ -1,0 +1,15 @@
+# Use the official Python image as the base image
+FROM python:3.8-slim-buster
+
+# Copy the backend code into the image
+COPY ./app.py /app/
+
+# Set the working directory
+WORKDIR /app
+
+# Install the required dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Run the backend
+CMD ["python", "app.py"]
